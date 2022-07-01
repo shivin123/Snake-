@@ -1,0 +1,25 @@
+# debuging section 
+
+#snake loc debug 
+ic=0
+for i in board:
+    ic+=1
+    ec=0
+    for e in i:
+        ec+=1
+        if e[3]!=-0:
+            print(ic,ec)
+            print(e)
+            print("")
+
+#head loc debug
+ic=0
+for i in board:
+    ic+=1
+    ec=0
+    for e in i:
+        ec+=1
+        if e[2]==True:
+            print(ic,ec)
+            print(e)
+            print("")
