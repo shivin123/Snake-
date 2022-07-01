@@ -4,7 +4,7 @@
 # In[1]:
 
 
-debug=1
+debug=0
 gip=1
 #imports
 import random
@@ -133,31 +133,29 @@ gen_food(board)
 if debug==1:
     print(board)
     print_board(board)
-        
-
-
-# In[2]:
-
-
+    
+#movement    
 def play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,score):
     wasd=["w","a","s","d"]
+    tdc=0
     while True:
         move=input("Press W,A,S or D to move: ")
         if move not in wasd:
             print("Invalid move: ")
             continue
-        if tail_direction==8 and move=="w":
-            print("Invalid move: ")
-            continue
-        if tail_direction==4 and move=="a":
-            print("Invalid move: ")
-            continue
-        if tail_direction==2 and move=="s":
-            print("Invalid move: ")
-            continue
-        if tail_direction==6 and move=="d":
-            print("Invalid move: ")
-            continue
+        if tdc==1:  #This section is not working remove tdc to work on tail direction 
+            if tail_direction==8 and move=="w":
+                print("Invalid move: ")
+                continue
+            if tail_direction==4 and move=="a":
+                print("Invalid move: ")
+                continue
+            if tail_direction==2 and move=="s":
+                print("Invalid move: ")
+                continue
+            if tail_direction==6 and move=="d":
+                print("Invalid move: ")
+                continue
         break
             
             
@@ -175,7 +173,7 @@ def play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,scor
         board[snake_head_pos_x][snake_head_pos_y-1][2]=True
         board[snake_head_pos_x][snake_head_pos_y-1][3]=length+1
         
-        snake_head_pos_x,snake_head_pos_y=snake_head_pos_x,snake_head_pos_y-1
+        snake_head_pos_y-=1
         tail_direction=2
         
         
@@ -191,7 +189,7 @@ def play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,scor
         board[snake_head_pos_x][snake_head_pos_y+1][2]=True
         board[snake_head_pos_x][snake_head_pos_y+1][3]=length+1
         
-        snake_head_pos_x,snake_head_pos_y=snake_head_pos_x,snake_head_pos_y+1
+        snake_head_pos_y+=1
         tail_direction=8
         
     if move=="a":
@@ -206,7 +204,7 @@ def play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,scor
         board[snake_head_pos_x-1][snake_head_pos_y][2]=True
         board[snake_head_pos_x-1][snake_head_pos_y][3]=length+1
         
-        snake_head_pos_x,snake_head_pos_y=snake_head_pos_x-1,snake_head_pos_y
+        snake_head_pos_x-=1
         tail_direction=6
         
     if move=="d":
@@ -221,37 +219,37 @@ def play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,scor
         board[snake_head_pos_x+1][snake_head_pos_y][2]=True
         board[snake_head_pos_x+1][snake_head_pos_y][3]=length+1
         
-        snake_head_pos_x,snake_head_pos_y=snake_head_pos_x+1,snake_head_pos_y
+        snake_head_pos_x+=1
         tail_direction=4
         
     for i in range(16):
         for e in range(16):
-            board[i][e][3]-=1
+            if board[i][e][2]==True:
+                snake_head_pos_x=i
+                snake_head_pos_y=e
+            
+            if board[i][e][3]!=0:
+                board[i][e][3]-=1
             if board[i][e][3]==0:
                 board[i][e][1]=False
-        
-    
-    
-    
-
-
-# In[ ]:
-
-
+    return [length,score]
+                
+                
 #game loop
+gip=1
 while gip==1:
+    for i in range(16):
+        for e in range(16):
+            if board[i][e][2]==True:
+                snake_head_pos_x=i
+                snake_head_pos_y=e
+                print(i,e)
+    
     print_score(score)
     print_board(board)
-    play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,score)
+    x=play_move(board,tail_direction,snake_head_pos_x,snake_head_pos_y,length,score)
+    length,score=x[0],x[1]
     clear_output(wait=True)
-    if score==2 and debug==1: #for testing 
-        break
-    
-    
-    
-
-
-# In[ ]:
 
 
 
